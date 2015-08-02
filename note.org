@@ -1,0 +1,1248 @@
+* emacs tutorial
+** basic control
+
+  * C-p previous line
+  * C-n next line
+  * C-f forward
+  * C-b backward
+  * M-a 去句首
+  * M-e 去句尾
+  * C-a 去行首
+  * C-e 去行尾
+  * C-g stop a cmmand*
+  * C-d delete next character
+  * <DEL> 删除光标前字符
+  * C-8 删除光标前字符
+  * M-d 删除下一个单词
+  * M-<DEL>删除光标后单词
+  * C-k kill from the cursor position to end of line
+  * C-y yanding 恢复粘贴kill掉的最后一行内容
+  * M-y 恢复粘贴kill掉的最近几行的内容
+  * C-u undo**
+  * C-/ undo
+  * C-<SPC> set mark 设置完后移动光标 C-w 删除两次光标之间的内容
+  * C-c f 设置一行的长度
+  * C-x C-f find a file**
+  * C-x C-s save file filename wrote ...filename*
+  * C-x C-b list buffers
+  * C-x 1 delete all but one window and  get rid of the buffer list
+  * C-x o delete other windows 去另一个window
+  * C-x 2 split the screen into two windows上下分
+  * C-x 3 分屏 左右分
+  * C-x s save some buffers
+  * C-x b switch buffer
+  * C-x C-c quit emacs*
+  * M-x anymode-mode **
+  * C-l C-l bring this line to the top of screen
+  * q close buffer
+  * C-r 向前搜索
+  * C-s 向后搜索
+  * C-c s  swap two active window
+  * C-v 向下翻页
+  * M-v 向上翻页
+  * C-u number 指令 重复N次指令
+  * C-M-v 光标在当前窗口在另一window里翻页
+  * M-x 搜索未知长指令
+  * TAB 打开标题
+  * M-> 页末
+  * M-< 页首
+  * C-c - 改变标题格式 * + number number)
+* The Emacs Editor
+** Distrib
+** Screen
+  * C-x = display a message describing the character at point, its
+    position in the buffer, and its column in the window.
+  * Information echo area messages are saved in a special buffer named
+    *Message*. The buffer is limited to a certain number of
+    lines. Beyond this limit, one line is deleted from the beginning
+    whenever a new message line is added at the
+    end.**Variables**,**Display Custom**,**Minibuffer**.
+  * CS describes the character set of the text in the buffer.'-'no
+    special character set handing.'=' means no coversion
+    whatsoever. Other characters represent various "coding
+    system".**Coding System**,**Input Methods**.
+  * The string indicated by CH.'--' the buffer displayed in the window
+    has the same contents as the corresponding file on the disk. If
+    the buffer is midified, it shows two stars **.For a read-only
+    buffer, it shows '%* if the buffer is modified, and
+    '%%'otherwise.**Optional Mode Line** **Major Modes** **Minor
+    Modes** **Narrowing** **Keyboard Macros** **Recursive Edit**
+    **Optional Mode Line** **Mode Line Mouse**
+  * 'C-h k' view the full command name and documentation for a menu
+    item, type 'C-h k', then select the menu bar with the mouse in the
+    usual way.
+  * kinds of User Input. You can also type Meta characters using
+    two-character sequences starting with <ESC>. Thus, you can enter
+    'M-a' by typing '<ESC> a'.'C-M-a' by typing '<ESC>
+    C-a'.**Customization** **Input Events**.
+  * A prefix key combines with the following input event to make a
+    linger key sequence. You can't add input events onto a complete
+    key.The prefix keys in Emacs are C-c C-h C-x C-x <RET> C-x @ C-x a
+    C-x n C-x r C-x v C-x 4 C-x 5 C-x 6 <ESC> M-g M-o**Key Bindings**
+  * **Keymaps** **Variables**
+  * The usual way to invoke Emacs is with the shell command 'emacs'.It
+    is unnecessary and wasteful to start Emacs afresh each time you
+    want to edit a file.The recommended way is to start it just
+    once,just after you log in,and do all your editing in the same
+    Emacs session.To edit a file from another program while Emacs is
+    running, you can use the 'emacsclient' helper program to open a
+    file in the existing Emacs session.
+  * If the variable 'inhibit-startup-screen' is non-'nil',Emacs does
+    not display the startup screen. In that case, if one or more files
+    were specified on the command line, Emacs displays those files;
+    otherwise, it displays a buffer named *scratch*, which can be
+    used to evaluate Emacs Lisp expressions interactively.
+  * 'C-x C-c' Kill Emacs ('Save-buffers-kill-terminal') 'C-z' On a
+    terminal, suspend Emacs; on a graphical display, minimize the
+    selected frame ('suspend-emacs').Killing Emacs will also kill the
+    subprocesses. If you type it from a client frame, it close the
+    client connection. Emacs can record certain session information
+    when you kill it, such as the files you were visiting at the
+    time.**Saving Emacs Session**. To kill Emacs without being
+    prompted about saving, typing 'M-x kill-emacs'.
+** Basic Editing Commands
+  * *Inserting Text*Insertion moves point forward, so that character
+    to the buffer at inserted text. 'C-j' without any
+    auto-indentation. Only graphic characters can be inserted by
+    typing the associated key; other keys act as editing commands and
+    do not insert themselves.  To insert a non-graphic character, or a
+    character that your keyboard does not support, first quote it by
+    typing 'C-q'('quoted-insert').
+    * 'C-q' followed by a sequence of octal digits inserts the
+      character with the specified octal character code. You can
+      use any number of octal digits; any non-digit terminates
+      the sequence. If the terminating character is <RET>, that
+      <RET> serves only to terminate the sequence. Any other
+      non-digit terminates the sequence and then acts as normal
+      input--thus, 'C-q 101B' inserts 'AB'.
+    * 'C-q' followed by any non-graphic character inserts that
+      character. For instance, 'C-q <DEL>'inserts a literal 'DEL'
+      character.
+    * A few common Unicode characters can be inserted via a command
+      staring with 'C-x 8'.'C-x 8 [' 'C-x 8 ]' 'C-x 8 {' 'C-x 8 }'
+    * 'C-x 8 C-h' To see  which characters have 'C-x 8' shorthand.
+  * *Moving Point*
+    * 'C-f'
+    * 'C-b'
+    * 'C-n' normally stops at the end of the buffer when you use it on
+      the last line in the buffer. However, if you set the variable
+      'next-line-add-newlines' to a non-'nil' value,'C-n' on the last
+      line of a buffer creates an additional line at the end and mives
+      down into it.
+    * 'C-p'
+    * 'C-a'
+    * 'C-e'
+    * 'M-f'
+    * 'M-b'
+    * 'M-r' move-to-window-line-top-bottom
+    * 'M-<' beginning-of-buffer
+    * 'M->' end-of-buffer
+    * 'C-v'
+    * 'M-v'
+    * 'M-g c' read a number N and move point to buffer position
+      N. Position 1 is the beginning of the buffer.
+    * 'M-g g' read a number N and move point to the beginning of line
+      number N. Line 1 is the beginning of the buffer.
+    * 'M-g <TAB>' read a number N and move to column N in the current
+      line. Column 0 is the leftmost column. If called with a prefix
+      argument, move to the column number specified by the argument's
+      numeric value.
+    * 'C-x C-n' Use the current column of point as the semipermanent
+      goal column for 'C-n' and 'C-p'('set-goal-column'). When a
+      semipermanent goal column is in effect, those commands always
+      try to move to this column, or as close as possible to it, after
+      moving vertically. The goal column remains in effect until
+      canceled.
+    * 'C-u C-x C-n'Cancel the goal column. Henceforth, 'C-n' and 'C-p'
+      try to preserve the horizontal position, as usual.
+  * *Erasing*
+    * <DEL> Delete the character before point, or the region if it is
+      active, moving the cursor and the characters after it
+      backwards. If point was at the beginning of a line, this deletes
+      the preceding newline, joining this line to the previous one.
+    * 'C-d' Delete the character after point.
+    * 'C-k' Kill to the end of the line.
+    * 'M-d' Kill to the end of the next word.
+    * 'M-<DEL>' Kill back to the beginning of the previous word.
+  * *Basic Undo*
+    * 'C-/'
+    * 'C-x u'
+    * 'C-_'
+  * *Basic Files*
+    * 'C-x C-f' Here the file name is given as an argument to the
+      command 'C-c C-f'. That command uses the minibuffer to read the
+      argument, and you type <RET> to terminate the argument.
+    * 'C-x C-s'
+  * *Help*
+    * 'C-h k' followed by the key of interest.
+  * *Blank Lines*
+    * 'C-o' Insert a blank line after the cursor.
+    * 'C-x C-o' Delete all but one of many consecutive blank lines. If
+      point is on a nonblank line, 'C-x C-o' deletes all following
+      blank lines, if any exists.
+  * *Continuation Lines*
+    * Every logical line occupies a single screen line; if it is
+      longer than the width of the window, the rest of the line is not
+      displayed. On a graphical display, a truncated line is indicated
+      by a small straight arrow in the right fringe; on a text
+      terminal, it is indicated by a '$' character in the right margin.
+    * Most commands that act on lines act on logical lines, not screen
+      lines.Emacs can optionally truncate long logical lines instead
+      of continuing them. On a graphical display, a truncated line is
+      indicated by a small straight arrow in the right fringe; on a
+      text terminal, it is indicated by a '$' character in the right
+      margin.
+    * The usual solution is to break your lines before they get too
+      long, by inserting newlines.You can make Emacs insert a newline
+      automatically when a line gets too ling, by using Auto Fill
+      mode.
+    * Sometimes, you may need to edit files containing many long
+      logical lines, and it may not be practical to break them all up
+      by adding newlines. In that case, you can use Visual line made,
+      which enables word wrapping: instead of wrapping long lines
+      exactly at the right window edge, Emacs wraps them at the word
+      boundaries nearest to the right window edge.
+  * *Position Info*
+    * 'M-x what-line' Display the line number of point.
+    * 'M-x line-number-mode' Toggle automatic display of the current
+      line number or column number.
+    * 'M-=' Display the number of lines, words, and characters that
+      are present in the region.
+    * 'M-x count-words' Display the number of lines, words, and
+      characters that are present in the buffer.
+    * 'C-x =' Display the character code of character after point,
+      character position of point, and column of point. This command
+      shows information about the current cursor position and the
+      buffer contents at that position. It displays a line in the echo
+      area that looks like this.  Char: C-j (10, #o12, #xa)
+      point=10124 of 10298 (98%) column=32 Hscroll=4 After 'char:',
+      this shows the character in the buffer at point. The text inside
+      the parenthesis shows the corresponding decimal, octal and hex
+      character codes. After 'point=' is the position of point as a
+      character count. The number after that is parenthesis expresses
+      the position as a percentage of the total. After 'column=' is
+      the position of point, in columns counting from the left edge of
+      the window.
+    * 'M-x hl-line-mode' Enable or disable highlighting of the current
+      line.
+    * 'M-x size-indication-mode' Toggle automatic display of the size
+      of the buffer.
+  * *Arguments*
+    * 'M-5 C-n' moves down five lines 'M-5 0 C-n' moves fifty lines
+    * 'C-u' alone has the special meaning of four times. 'C-u C-u'
+      multiplies it by sixteen. 'C-u N C-u char 'insert N chars.
+    * We use the term prefix argument to emphasize that you type such
+      arguments before the command, and to distinguish them from
+      minibuffer arguments, which are entered after invoking the
+      command.
+  * *Repeating*
+    * 'C-x z' To repeat the command more than once, type additional
+      'z' : each 'z' repeats the command one more time. Repetition
+      ends when you type a character other than 'z', or press a mouse
+      button.
+** The Minibuffer
+  * *Basic Minibuffer*
+    * When the minibuffer is in use, it appears in the echo area, with
+      a cursor. The minibuffer starts with a prompt, usually ending
+      with a colon. You can type 'C-g' to exit the minibuffer by
+      canceling the command asking for the argument.
+    * If you enable Minibuffer Electric Default mode, a global minor
+      mode, Emacs hides the default argument as soon as you modify the
+      contents of the minibuffer( since typing <RET> would no longer
+      submit that default). Furthermore, if you change the variable
+      'minibuffer-electric-shorten-default' to a non-'nil' value, the
+      default argument is displayed as '[DEFAULT]' instead of
+      '(default DEFAULT)', saving some screen space. To enable this
+      minor mode, type 'M-x minibuffer-electric-default-mode'.
+  * *Minibuffer File*
+    * Commands such as 'C-x C-f' use the minibuffer to read a file
+      name, it typically starts out with some initial text ending in a
+      slash. This is the default directory. Alternatively, you can use
+      'M-<DEL>' to kill directory names backwards.
+    * To specify a file in a completely different directory, you can
+      kill the entire default with 'C-a C-k'. The ignored part of the
+      file name is dimmed if the terminal allows it. (To disable this
+      dimming, turn off File Name Shadow mode with the command 'M-x
+      file-name-shadow-mode'.)
+    * Emacs interprets '~/' as your home directory.
+    * Any leading directory name in front of the '~'is ignored.
+    * To prevent Emacs from inserting the default directory when
+      reading file names, change the variable 'insert-
+      default-directory' to 'nil'. In that case, the minibuffer starts
+      out empty. Nonetheless, relative file name arguments are still
+      interpreted based on the same default directory.
+  * *Minibuffer Edit*
+    * 'C-q C-j' inserts a 'C-j' control character, which is formally
+      equivalent to a newline character.
+    * 'resize-mini-windows'
+    * 'max-mini-window-height'
+    * 'C-M-v' in the minibuffer scrolls the help text from commands
+      that display help text of any sort in another window.
+    * 'M-<prior> M-<next>
+    * Emacs normally disallows most commands that use the minibuffer
+      while the minibuffer is active. To allow such commands in the
+      minibuffer, set the variable 'enable-recursive-minibuffers' to
+      't'.
+  * *Completion*
+    * You can often use a feature called completion to help enter
+      arguments. This means that after you type part of the argument,
+      Emacs can fill in the rest, or some of it, based on what was
+      typed so far.
+    * Although completion is usually done in the minibuffer, the
+      feature is sometimes available in ordinary buffers too.
+    * Here is a list of the completion commands defined in the
+      minibuffer when completion is allowed.
+    * <TAB> Complete the text in the minibuffer as much as possible;
+      if unable to complete, display a list of possible
+      completions. <TAB> is the mist fundamental completion
+      command. It searches for all possible completions that match the
+      existing minibuffer text, and attempts to complete as much as it
+      can.See Completion Styles, for how completion alternatives are
+      chosen.
+    * <SPC> minibuffer-complete-word.
+    * <RET> minibuffer-complete-and-exit While in the completion list
+      buffer, this chooses the completion at point.
+    * ? Display a list of completions.
+    * 'Mouse-1' 'Mouse-2' Clicking mouse button 1 or 2 on a completion
+      alternative chooses it.
+    * You can use different completion styles in different situations,
+      by setting the variable 'completion-category-overrides'.
+    * Case is significant when completing case-sensitive arguments,
+      such as command names.When completing file names, case
+      differences are ignores if the variable
+      'read-file-name-completion-ignore-case' is non-'nil'.
+    * Shell completion is an extended version of filename completion,
+      see Shell Options.
+  * *Minibuffer History'
+    * 'M-p' Move to the previous item in the minibuffer history, an
+      earlier argument.
+    * 'M-n' Move to the next item in the minibuffer history.
+    * 'M-r REGEXP <RET>' Move to an earlier item in the minibuffer
+      history that matches REGEXP. You can use 'M-r' to search through
+      older elements in the history list, and 'M-s' to search through
+      newer entries.
+    * 'M-s REGEXP <RET'> Move to a later item in the minibuffer
+      history that matches REGEXP.
+  * *Repetition*
+    * In particular, every use of 'M-x' is recorded there,since 'M-x'
+      uses the minibuffer to read the command name.
+    * 'C-x <ESC><ESC>' Re-execute a recent minibuffer command from the
+      command history.
+    * 'M-x list-command-history' Display the entire command history,
+      showing all the commands 'C-x <ESC> <ESC>' can repeat, most
+      recent first.
+  * *Passwords*
+    * While you are typing the password, you may press <DEL> to delete
+      backwards, removing the last character entered. 'C-u' deletes
+      everything you have typed so far. 'C-g' quits the password
+      prompt. 'C-y' inserts the current kill into the password.
+** Running Commands by Name
+  * To run a command by name, start with 'M-x'. You can use completion
+    to enter the command name.
+** Help
+  * 'C-h a TOPICS <RET>' Display a list of commands whose names match
+    TOPICS
+  * 'C-h b' Display all active key bindings; minor mode bindings
+    first, then those of the major mode, then global bindings.
+  * 'C-h c KEY' Show the name of the command that the key sequence KEY
+    is bound to 'describe-key-briefly'.
+  * 'C-h d TOPICS' Display the commands and variables whose
+    documentation matches TOPICS.
+  * 'C-h e' Display the '*Message*' buffer.
+  * 'C-h f FUNCTION' Display documentation on the Lisp function named
+    FUNCTION. Since commands are Lisp functions, this works for
+    commands too. 'C-h f' allows all function names, not just
+    command. An abbreviation that is unique among command names may
+    not be unique among all function names.
+  * 'C-h h' Display the 'HELLO' file, which shows examples of carious
+    character sets.
+  * 'C-h i' Run Info, the GUN documentation browser ('info'). The
+    Emacs manual is available in Info.
+  * 'C-h KEY' Display the name and documentation of the command that
+    KEY runs.
+  * 'C-h l' Display a description of your last 300
+    keystrokes.'view-lossage'.
+  * 'C-h m' Display documentation of the current major mode and minor
+    modes 'describe-mode'.
+  * 'C-h n' Display news of recent Emacs changes. 'view-emacs-news'
+  * 'C-h p' Find packages by topic keyword 'finder-by-keyword'. This
+    lists packages using a package menu buffer.
+  * 'C-h P PACKAGE' Display documentation about the specified package
+    'describe-package'.
+  * 'C-h r' Display the Emacs manual in Info 'info-emacs-manual'.
+  * 'C-h s' Display the contents of the current syntax table. The
+    syntax table says which characters are opening delimiters, which
+    are parts of words, and so on.
+  * 'C-h t' Enter the Emacs interactive tutorial 'help-with-tutorial.
+  * 'C-h v VAR' Display the documentation of the Lisp variable VAR. It
+    is like 'C-h f' but describes Lisp variables instead of Lisp
+    functions.
+  * 'C-h w COMMAND' Show which keys run the command named COMMAND.
+  * 'C-h C CODING' Describe the coding system CODING.
+  * 'C-h C' Describe the coding systems currently in  use.
+  * 'C-h F COMMAND' Enter Info and go to the node that documents the
+    Emacs command COMMAND.
+  * 'C-h I METHOD' Describe the input method METHOD.
+  * 'C-h K KEY' Enter Info and go to the node that documents the key
+    sequence KEY 'Info-goto-emacs-command-node'
+  * 'C-h L LANGUAGE-ENV' Display information on the character
+    sets,coding systems, and input methods used in language
+    environment LANGUAGE-ENV.
+  * 'C-h S SYMBOL' Display the Info documentation on symbol SYMBOL
+    according to the programming language you are editing.
+  * 'C-h .' Display the help message for a special text area, if point
+    is in one. 'display-local-help'.
+  * 'C-h a' Search for commands. With a prefix argument, search for
+    noninteractive functions too .To find commands that containing
+    that word on files, type 'C-h a file'.This displays a list of all
+    command names that contain 'file', including 'copy-file',
+    'find-file', and so on. When you specify mire than one word in the
+    apropos pattern, a name must contain at least two of the words in
+    order to match. Thus, if you are looking for commands to kill a
+    chunk of text before point, you could try 'C-h a kill back
+    backward behind before '. The real command name 'kill-backward'
+    will match that; if there were a command 'kill-text-before', it
+    would also match, since it contains two of the specified words.
+  * 'M-x apropos' Search for functions and variables. Both interactive
+    functions and noninteractive functions can be found by this.
+  * 'M-x apropos-user-option' Search for user-customizable variables
+    too.
+  * 'M-x apropos-variable' Search for variables. With a prefix
+    argument, search for customizable variables only.
+  * 'M-x apropos-value' Search for variables whose values match the
+    specified pattern. With a prefix argument, search also for
+    functions with definitions matching the pattern, and Lisp symbols
+    with properties matching the pattern.
+  * 'C-h d' Search for functions and variables whose documentation
+    strings match the specified pattern.
+  * 'C-c C-c' Show all documentation about the symbol at point. This
+    shows all available documentation about the symbol--as a variable,
+    function and/or face.
+  * ' C-h e' To review recent echo area
+    messages. 'view-echo-area-messages'
+  * 'C-h m' Display documentation on the current major mode, which
+    normally describes the commands and features that are changed in
+    this mode.
+  * 'C-c C-b' Go back to the previous help topic.
+  * 'C-h b' 'C-h s' show other information about the current
+    environment within Emacs.
+  * 'C-h C-c' Display the rules under which you can copy and
+    redistribute Emacs. 'describe-copying'
+  * 'C-h C-d' Display help for debugging Emacs.
+  * 'C-h C-e' Display information about where to get external
+    packages.
+  * 'C-h C-f' Display the Emacs frequently-answered-questions list.
+  * 'C-h g' Visit a page with information about the GUN Project.
+  * 'C-h C-m' Display information about ordering printed copies of
+    Emacs manuals. 'view-order-manuals'
+  * 'C-h C-n' Display the news file, which lists the new features in
+    this version of Emacs.
+  * 'C-h C-o' Display how to order or download the latest version of
+    Emacs and other GUN software.
+  * 'C-h C-p' Display the list of known Emacs problems, sometimes with
+    suggested workarounds.
+  * 'C-h C-t' Display the Emacs to-do list.
+  * 'C-h C-w' Display the full details on the complete absence of
+    warranty for GNU Emacs.
+** Mark
+  * *Setting Mark*
+    * 'C-<SPC>' Set the mark at point, and activate it. This sets the
+      mark where point is, and activates it. You can then move point
+      away, leaving the mark behind.
+    * 'C-@' The same.
+    * 'C-x C-x' Set the mark at point, and activate it; then move
+      point where the mark used to be. Whenever the mark is active,
+      you can deactivate it by typing 'C-g'. Most commands that
+      operate on the region also automatically deactivate the mark,
+      like 'C-x C-u' in the above example.
+    * Instead of setting the mark in order to operate on a region, you
+      can also use it to remember a position in the buffer by typing
+      'C-<SPC> C-<SPC>', and later jump back there by typing 'C-u
+      C-<SPC>'.
+  * *Marking Objects*
+    * 'M-@' Set mark after end of next word. 'mark-word' This does not
+      move point.
+    * 'C-M-@' Set mark after end of following balanced
+      expression.'mark-sexp'
+    * 'M-h' Move point to the beginning of the current paragraph, and
+      set mark at the end.'mark-paragraph'
+    * 'C-M-h' Move point to the beginning of the current defun and set
+      mark at the end.'mark-page'
+    * 'C-x C-p' Move point to the beginning of the current page, and
+      set mark at the end.'mark-whole-buffer'
+    * 'C-x h' 'mark-whole-buffer' sets up the entire buffer as the
+      region, by putting point at the beginning and the mark at the
+      end.
+  * *Using Region*
+    * Kill it with 'C-w'
+    * Copy it to the kill ring with 'M-w'
+    * Convert case with 'C-x C-l' or 'C-x C-u'
+    * Undo changes within it using 'C-u C-/'
+    * Replace text within it using 'M-%'
+    * Indent it with 'C-x <TAB>' or 'C-M-\'
+    * Fill it as text with 'M-x fill-region'
+    * Check the spelling of words within it with 'M-$'
+    * Evaluate it as Lisp code with 'M-x eval-region'
+    * Save it in a register with 'C-x r s'
+    * Save it in a buffer or a file.
+    * By default, text insertion occurs normally even if the mark is
+      active--for example, typing 'a' inserts the character 'a', then
+      deactivates the mark.If you enable Delete Selection mode,a minor
+      mode, then inserting text while the mark is active causes the
+      text in the region to be deleted first, To toggle Delete
+      Selection mode on or off,type 'M-x delete-selection-mode'.
+  * *Mark Ring*
+    * One of the uses of the mark ring is to remember spots that you
+      may want to go back to.
+    * 'C-<SPC> C-<SPC>' Set the mark, pushing it onto the mark ring,
+      without activating it.
+    * 'C-u C-<SPC>' Move point to where the mark was, and restore the
+      mark from the ring of former marks.Each subsequent 'C-u C-<SPC>'
+      jumps to a prior position stored in the mark ring. The positions
+      you move through in this way are not lost; they go to the end of
+      the ring.If you want to move back to the same place over and
+      over, the mark ring may not be convenient enough, If so, you can
+      record the position in a register for later retrieval.
+  * *Global Mark Ring*
+    * The length of the global mark ring is controlled by
+      'global-mark-ring- max', and is 16 by default.
+    * 'C-x C-<SPC>' 'pop-global-mark' jumps to the buffer and position
+      of the latest entry in the global ring. It also rotates the
+      ring, so that successive uses of 'C-x C-<SPC>' take you to
+      earlier buffers and mark positions.
+  * *Shift Selection*
+    * If you hold down the shift key while typing a cursor motion
+      command, this sets the mark before moving point, so that the
+      region extends from the original position of point to its new
+      position. This feature is referred to as shift-selection. It is
+      similar to the way text is selected in other editors.
+  * *Disabled Transient Mark*
+    * 'C-u C-x C-x' Exchange point and mark, activate the mark and
+      enable Transient Mark mode temporarily, until the mark is next
+      deactivated. Enabling Transient Mark mode momentarily gives you
+      a way to use these commands on the region.
+** Killing
+  * In Emacs, killing means erasing text and copying it into the kill
+    ring. Yanking means bringing text from the kill ring back into the
+    buffer. The kill ring is so-named because it can be visualized as
+    a set of blocks of text arranged in a ring, which you can access
+    in cyclic order.
+  * When you use 'C-/' to undo a kill command that brings the killed
+    text back into the buffer, but does mot remove it from the kill
+    ring. On graphical displays, killing text also copies it to the
+    system clipboard.
+  * *Deletion*
+    * 'C-d' Delete the next character.
+    * 'M-\' Delete spaces and tabs around point.
+    * 'M-<SPC>' Delete spaces and tabs around point, leaving one space.
+    * 'C-x C-o' Delete blank lines around the current line.
+    * 'M-^' Join two line by deleting the intervening newline, along
+      with any indentation following it.
+    * *Killing by Lines*
+      * 'C-k' Kill rest of line or one or more lines.
+      * 'C-S-backspace' Kill an entire line at once.
+      * 'C-w' Kill the region.
+      * 'M-w' Copy the region into the kill ring.
+      * 'M-d' Kill the next word.
+      * 'M-<DEL>' Kill one word backwards.
+      * 'M-k' Kill to the end of the sentence.
+      * 'C-x <DEL>' Kill back to beginning of sentence.
+      * 'C-M-k' Kill the following balanced expression.
+      * 'M-z CHAR' Kill through the next occurrence of CHAR. It
+        combines killing with searching: it reads a character and
+        kills from point up to the next occurrence of that character
+        in the buffer. A numeric argument acts as a repeat count; a
+        negative argument means to search backward and kill text.
+        before point.
+      * Some specialized buffers contain read-only text, which cannot
+        be modified and therefore cannot be killed. The kill commands
+        work specially in a read-only buffer.
+  * *Yanking*
+    * The usual way to move or copy text is to kill it and then yank
+      it elsewhere.
+    * 'C-y' Yank the last kill into the buffer, at point. It also sets
+      the mark at the beginning of the inserted text, without
+      activating the mark; this lats you jump easily to that position,
+      if you wish, with 'C-u C-<SPC>'. With a plain prefix argument
+      ('C-u C-y'), the command instead leaves the cursor in front of
+      the inserted text, and sets the mark at the end. On graphical
+      displays, 'C-y' first checks if another application has placed
+      any text in the system clipboard more recently than the last
+      Emacs kill. If so, it inserts the clipboard's text instead.
+    * 'M-y' Replace the text just yanked with an earlier batch of
+      killed text 'yank-pop'.
+    * 'C-M-w' Cause the following command, if it is a kill command, to
+      append to the previous kill. 'append-next-kill'
+    * *Kill Ring*
+      * There is only one kill ring, shared by all buffers, so you can
+        kill text in one buffer and yank it in another buffer. The
+        maximum number of entries in the kill ring is controlled by
+        the variable 'kill-ring-max'. The default is 60. If you make a
+        new kill when this limit has been reached, Emacs makes room by
+        deleting the oldest entry in the kill ring.
+      * You can view the entire contents of the kill ring with 'C-h v
+        kill-ring'.
+  * *Yanking Earlier Kills*
+    * To recover the text of the next-to-the-last kill, first use
+      'C-y' to yank the last kill, and then use 'M-y' to replace it
+      with the previous kill. 'M-y' is allowed only after a 'C-y' or
+      another 'M-y'. Enough 'M-y' commands can move the pointer to any
+      entry in the ring, so you can get any entry into the
+      buffer. Eventually the pointer reaches the end of the ring; the
+      next 'M-y' loops back around to the first entry again.
+  * *Appending Kills*
+    * Normally, each kill command pushes a new entry onto the kill
+      ring. However, two or more kill commands in a row combine their
+      text into a single entry, so that a single 'C-y' yanks all the
+      text as a unit, just as it was before it was killed.
+    * The 'C-M-w' tells its following command, if it is a kill
+      command, to treat the kill as part of the sequence of previous
+      kills. As usual. the kill is appended to the previous killed
+      text if the command kills forward, and prepended if the command
+      kills backward. In this way, you can kill several separated
+      pieces of text and accumulate them to be yanked back in one place.
+  * *Cut and Paste*
+    * *Clipboard*
+      * In most graphical desktop environments, you can transfer data
+        between different applications using a system facility called
+        the clipboard. On X, two other similar facilities are
+        available: the primary selection and the secondary selection.
+      * If you find that the pasted text is not what you expected, you
+        can specify another coding system by typing 'C-x <RET> x' or
+        'C-x <RET> X'. You can also request a different data type by
+        customizing 'x-select-request-type'.
+      * Optionally, you can change
+        'save-interprogram-paste-before-kill' to 't'. Then Emacs will
+        first save the clipboard to its kill ring, preventing you from
+        losing the old clipboard data--at the risk of high memory
+        consumption if that data turns out to be large.
+      * If you cut or copied text there more recently than your last
+        kill command in Emacs-- then Emacs yanks from the clipboard
+        instead of the kill ring. Normally, rotating the kill ring
+        with 'M-y' does not alter the clipboard. However, if you
+        change 'yank-pop-change-selection' to 't', then 'M-y' saves
+        the new yank to the clipboard.
+    * *Primary Selection*
+      * Under X, whenever the region is active, the text in the region
+        is saved in the primary selection. This applies regardless of
+        whether the region was made by dragging or clicking the mouse,
+        or by keyboard commands 'C-<SPC>'.
+  * *Accumulating Text*
+    * There are convenient methods for copying one block of text in
+      many places, or for copying many scattered blocks of text into
+      one place.
+    * 'M-x append-to-buffer' Append region to the contents of a
+      specified buffer.
+    * 'M-x prepend-to-buffer' Prepend region to the contents of a
+      specified buffer.
+    * 'M-x copy-to-buffer' Copy region into a specified buffer,
+      deleting that buffer's old contents.
+    * 'M-x insert-buffer' Insert the contents of a specified buffer
+      into current buffer at point.
+    * 'M-x append-to-file' Append region to the contents of a
+      specified file, at the end.
+    * You can append text directly into a file with 'M-x
+      append-to-file'. This prompts for a filename, and adds the text
+      of the region to the end of the specified file. The file is
+      changed immediately on disk. You should use 'append-to-file'
+      only with files that are not being visited in Emacs. Using it on
+      a file that you are editing in Emacs would change the file
+      behind Emacs's back, which can lead to losing some of your
+      editing.
+  * *Rectangles*
+    * Rectangle commands operate on rectangular areas of the text: all
+      the characters between a certain pair of columns, in a certain
+      range of lines. Emacs has command to kill rectangles, yank
+      killed rectangles, clear them out, fill them with blanks or
+      text, or delete them.
+    * 'C-x r k' Kill the text of the region-rectangle, saving its
+      contents as the last killed rectangle.
+    * 'C-x r M-w' Save the text of the region-rectangle as the last
+      killed rectangle. It records the rectangle as the last killed
+      rectangle, without deleting the text from the buffer.
+    * 'C-x r d' Delete the text of the region-rectangle.
+    * 'C-x r y' Yank the last killed rectangle with its upper left
+      corner at point.
+    * 'C-x r o' Insert blank space to fill the space of the
+      region-rectangle. This pushes the previous contents of the
+      region-rectangle to the right.
+    * 'C-x r N' Insert line numbers along the left edge of the
+      region-rectangle. This pushes the previous contents of the
+      region-rectangle to the right.
+    * 'C-x r c' Clear the region-rectangle by replacing all of its
+      contents with a8spaces.
+    * 'M-x delete-whitespace-rectangle' Delete whitespace in each of
+      the lines on the specified rectangle, starting from the left
+      edge column of the rectangle.
+    * 'C-x r t STRING <RET>' Replace rectangle contents with STRING on
+      each line.
+    * 'M-x string-insert-rectangle <RET> STRING <RET>' Insert STRING
+      on rach line of the rectangle.
+    * 'C-x <SPC>' Toggle Rectangle Mark mode. When this mode is
+      active, the region-rectangle is highlighted and can be shrunk,
+      and the standard kill and yank commands operate on it. When this
+      mode is enabled, commands that resize the region do so in a
+      rectangular fashion, and killing and yanking operate in the
+      rectangle.
+  * *CUA Bindings*
+    * The command 'M-x cua-mode' sets up key bindings that are
+      compatible with the Common User Access system used in many other
+      applications.
+    * When CUA mode is enabled, the keys 'C-x','C-c','C-v','C-z'
+      invoke commands that cut, copy, paste, undo
+      respectively. Otherwise, they still act as prefix keys, so that
+      standard Emacs commands like 'C-x C-c' still work. Note that
+      this means the variable 'mark-even-if-inactive' has no effect
+      for 'C-x' and 'C-c'.
+** Registers
+  * Once you save text or a rectangle in a register, you can copy it
+    into the buffer once, or many times; once you save a position in a
+    register, you can jump back to that position once, or many times.
+  * A register can store a position, a piece of text, a rectangle, a
+    number, a window configuration, or a file name, but only one thing
+    at any given time.
+  * 'M-x view-register <RET> R' Display a description of what register
+    R contains. All of the commands that prompt for a register will
+    display a preview window that lists the existing registers after a
+    short delay. To change the length of the delay, set that option to
+    'register-preview-delay'. Bookmarks record files and positions in
+    them, so you can return to those positions when you look at the
+    file again. Bookmarks record are similar in spirit to registers, so
+    they are also documented in this chapter.
+  * *Position Registers*
+    * 'C-x r <SPC> R' Record the position of point and the current
+      buffer in register R. The register retains this information
+      until you store something else in it.
+    * 'C-x r j R' Jump to the position and buffer saved in register
+      R. The contents of the register are not changed, so you can jump
+      to the saved position any number of times.
+    * If you use 'C-x r j' to go to a saved position, but the buffer
+      it was saved from has been killed, 'C-x r j' tries to create the
+      buffer again by visiting the same file. Of course, this works
+      only for buffers that were visiting files.
+  * *Text Registers*
+    * 'C-x r s R' Copy region into register R.
+    * 'C-x r i R' Insert text from register R.
+    * 'M-x append-to-register <RET> R' Append region to text in
+      register R. when register R contains text, you can use 'C-x r +'
+      to append to that register. Note that command 'C-x r +' behaves
+      differently of R contains a number.
+    * 'M-x prepend-to-register <RET> R' Prepend region to text in
+      register R.
+  * *Rectangle Registers*
+    * A register can contain a rectangle instead of linear text.
+    * 'C-x r r R' Copy the region-rectangle into register R.
+    * 'C-x r i R' Insert the rectangle stored in register R. This
+      command inserts a rectangle rather than a text string, if the
+      register contains a rectangle.
+  * *Configuration Registers*
+    * 'C-x r w R' Save the state of the selected frame's windows in
+      register R.
+    * 'C-x r f R'Save the state of all frames, including all their
+      windows, in register R.
+    * 'C-x r j R' Restore a window or frame configuration. This is the
+      same command used to restore a cursor position.
+    * 'C-u C-x r j R' Delete these frames instead.
+  * *Number Registers*
+    * 'C-u NUMBER C-x r n R' Store NUMBER into register R.
+    * 'C-u NUMBER C-x r + R' If R contains a number, increment the
+      number in that register bu NUMBER. Note that command 'C-x r +'
+      behaves differently if R contains text.
+    * 'C-x r i R' Insert the number from register R into the buffer.
+  * *File Registers*
+    * Lisp code used to put a file NAME into register R:
+          (set-register R '(file . NAME))
+  * *Bookmarks*
+    * Bookmarks are somewhat like registers in that they record
+      positions you can jump to. Unlike registers, they have ling
+      names,and they persist automatically from one Emacs session to
+      the next. The prototypical use of bookmarks is to record where
+      you were reading in various files.
+    * 'C-x r m <RET>' Set the bookmark for the visited file, at point.
+    * 'C-x r m BOOKMARK <RET>' Set the bookmark named BOOKMARK at
+      point.
+    * 'C-x r b BOOKMARK <RET>' Jump to the bookmark named BOOKMARK.
+    * 'C-x r l' List all bookmarks.
+    * 'M-x bookmark-save' Save all the current bookmark values in the
+      default bookmark file. When you kill Emacs, Emacs saves your
+      bookmarks, if you have changed any bookmark values. You can also
+      sane the bookmarks at any time with the 'M-x bookmark-save'
+      command.
+    * Bookmarks are saved to the file '~/.emacs.d/bookmarks'
+      '~/.emacs.bmk'
+    * If you set the variable 'bookmark-save-flag' to 1, each command
+      that sets a bookmark will also save your bookmarks; this way,
+      you don't lose any bookmark values even if Emacs crashes.
+    * 'M-x bookmark-load <RET> FILENAME <RET>' Load a file named
+      FILENAME that contains a list of bookmark values. You can use
+      this command,as well as 'bookmark-write', to work with other
+      files of bookmark values in addition to your default bookmark
+      file.
+    * 'M-x bookmark-write <RET> BOOKMARK <RET>' Save all the current
+      bookmark values in the file FILENAME.
+    * 'M-x bookmark-delete <RET> BOOKMARK <RET>' Delete the bookmark
+      named BOOKMARK.
+    * 'M-x bookmark-insert-location <RET> BOOKMARK <RET>' Insert in
+      the buffer the name of the file that bookmark BOOKMARK points
+      to.
+    * 'M-x bookmark-insert <RET> BOOKMARK <RET>' Insert in the buffer
+      the contents of the file that bookmark BOOKMARK points to.
+** Display
+  * *Scrolling*
+    * 'C-v' 'M-v'
+    * The number of lines of overlap left by these scroll commands is
+      controlled by the variable 'next-screen-context-lines', whose
+      default value is 2. You can supply the commands with a numeric
+      prefix argument, N, to scroll by N lines; Emacs attempts to
+      leave point unchanged, so that the text and point move up or
+      down together.
+    * Some users like scroll commands to keep point at the same screen
+      position, so that scrolling back to the same screen conveniently
+      returns point to its original position. You can enable this
+      behavior via the variable 'scroll-preserve-screen-position'. If
+      the value is 't', Emacs adjusts point to keep the cursor at the
+      same screen position whenever a scroll command moves it
+      off-window, rather than moving it to the topmost or bottommost
+      line. With any other non-'nil' 'scroll-command' property.
+  * *Recentering*
+    * 'C-l' Scroll the selected window so the window so the current
+      line is the center-most text line; on subsequent consecutive
+      invocations, make the current line the top line, the bottom
+      line, and so on in cyclic order.Possibly redisplay the screen
+      too. Typing 'C-l' twice in a row scrolls the window so that
+      point is on the topmost screen line. Typing a third 'C-l'
+      scrolls the window so that point is on the bottom-most screen
+      line. Each successive 'C-l' cycles through these three
+      positions. You can also give it a prefix argument. 'C-u C-l',
+      simply recenters point.
+    * 'M-x recenter' Scroll the selected window so the current line is
+      the center-most text line. Possibly redisplay the screen too.
+    * 'C-M-l' Scroll heuristically to bring useful information onto
+      the screen.
+  * *Auto Scrolling*
+    * You can set 'scroll-conservatively'
+    * 'scroll-step' Its value determines the number of lines by which
+      to automatically scroll, when point moves off the screen. The
+      default value is zero, which causes point to always be centered
+      after scrolling.
+    * 'scroll-up-aggressively' and 'scroll-down-aggressively' Larger F
+      means more aggressive scrolling: more new text is brought into
+      view.
+  * *Horizontal Scrolling*
+    * If a window shows truncated lines, Emacs performs automatic
+      horizontal scrolling whenever point moves off the left or right
+      edge of the screen. To disable automatic horizontal scrolling,
+      set the variable 'auto-hscroll-mode' to 'nil'.
+    * The variable 'hscroll-margin' controls how close point can get
+      to the window's left and right edges before automatic scrolling
+      occurs.
+    * The variable 'hscroll-step' determines how many columns to
+      scroll the window when point gets too close to the edge.
+    * 'C-x <' Scroll text in current window to the left.
+    * 'C-x >'Scroll to the right
+  * *Narrowing*
+    * Narrowing can make it easier to concentrate on a single
+      subroutine or paragraph by eliminating clutter. It can also be
+      used to limit the range of operation of a replace command or
+      repeating keyboard macro.
+    * 'C-x n n' Narrow down to between point and mark.
+    * 'C-x n w' widen to make the entire buffer accessible again.
+    * 'C-x n p' Narrow down to the current page.
+    * 'C-x n d' Narrow down to the current defun.
+    * 'C-x =' Get information on what part of the buffer you are
+      narrowed down.
+  * *View Mode*
+    * View mode is a minor mode that lets you scan a buffer by
+      sequential screenfuls. It provides commands for scrolling
+      through the buffer conveniently but not for changing it.
+    * 'M-x view-buffer' prompts for an existing Emacs buffer, switches
+      to it, and enables View mode.
+    * 'M-x view-file' prompts for a file and visits it with View mode
+      enabled.
+  * *Follow Mode*
+    * Follow mode is a minor mode that makes two windows, both showing
+      the same buffer, scroll as a single tall virtual window. To use
+      Follow mode, go to a frame with just one window, split it into
+      two side-by-side windows using 'C-x 3', and then type 'M-x
+      follow-mode'. From then on, you can edit the buffer in either of
+      the two windows, or scroll either one; the other window follows
+      it. To turn off Follow mode, type 'M-x follow-mode' a second
+      time.
+  * *Faces*
+    * To see what faces are currently defined, and what they look
+      like, type 'M-x list-faces-display'. With a prefix argument,
+      this prompts for a regular expression, and displays only faces
+      with names matching that regular expression.
+  * *Colors*
+    * A color name is a pre-defined name, such as 'dark orange' or
+      'medium sea green'. To view a list of color names, type 'M-x
+      list-colors-display'. To control the order in which colors are
+      shown, customize 'list-colors-sort'.
+    * The 'M-x list-colors-display' command also shows the equivalent
+      RGB triplet for each named color.
+    * You can change the foreground and background colors of a face
+      with 'M-x set-face-foreground' and 'M-x set-face-background'.
+  * *Text Scale*
+    * To increase the height of the default face in the current
+      buffer, type 'C-x C-+' or 'C-x C-='. To decrease it, type 'C-x
+      C--'. To restore the default face height, type 'C-x C-0'. The
+      final key of these commands may be repeated without the leading
+      'C-x'. For instance, 'C-x C-= C-= C-=' increases the face height
+      by three steps. Each step scales the text height by a factor of
+      1.2; to change this factor, customize the variable
+      'text-scale-mode-step'.
+  * *Font Lock mode*
+    * Font Lock mode is a minor mode, always local to a particular
+      buffer, which assigns faces to the text in the buffer. Each
+      buffer's major mode tells Font Lock mode which text to fontify;
+      for instance, programming language modes fontify syntactically
+      relevant constructs like comments, strings, and function names.
+  * *Interactive Highlighting*
+    * Highlight Changes mode is a minor mode that highlights the parts
+      of the buffer that were changed most recently, by giving that
+      text a different face. To enable or disable Highlight Changes
+      mode, use 'M-x highlight-changes-mode'
+    * Hi Lock mode is a minor mode that highlights text that matches
+      regular expressions you specify. To enable or disable Hi Lock
+      mode, use the command 'M-x hi-lock-mode'. To enable Hi Lock mode
+      for all buffers, use 'M-x global-hi-lock-mode'
+    * 'M-s h r REGEXP <RET> FACE <RET>' 'C-x w h REGEXP <RET> FACE
+      <RET>' Highlight text that matches REGEXP using face FACE. The
+      highlight will remain as long as the buffer loaded.
+    * 'M-s h u REGEXP <RET>' 'C-x w r REGEXP <RET>' Unhighlight
+      REGEXP.
+    * 'M-s h l REGEXP <RET> FACE <RET>' 'C-x w l REGEXP <RET> FACE
+      <RET>' Highlight entire lines containing a match for REGEXP,
+      using face FACE.
+    * 'M-s h p PHRASE <RET> FACE <RET>' 'C-x w p PHRASE <RET> FACE
+      <RET>' Highlight matches of PHRASE, using face FACE. PHRASE can
+      be any regexp, but spaces will be replaced by matches to
+      whitespace and initial lower-case letters will become case
+      insensitive.
+    * 'M-s h .' 'C-x w .' Highlight the symbol found near point, using
+      the next available face.
+    * 'M-s h w' 'C-x w b' Insert all the current highlighting regexp
+      pairs into the buffer at point, with comment delimiters to
+      prevent them from changing your program. These patterns are
+      extracted from the comments, if appropriate, if you invoke 'M-x
+      hi-lock-find-patterns', or if you visit the file while Hi Lock
+      mode is enabled.
+    * 'M-s h f' 'C-x w i' Extract regexp pairs from comments in the
+      current buffer. Thus, you can enter patterns interactively with
+      'highlight-regexp', store them into the file with
+      'hi-lock-write-interactive-patterns'.
+  * *Fringes*
+    * You can type 'M-x fringe-mode' to disable the fringes, or modify
+      their width. This command affects fringes in all frames; to
+      modify fringes on the selected frame only, use 'M-x
+      set-fringe-style'. You can make your changes to the fringes
+      permanent by customizing the variable 'fringe-mode'.
+    * The fringe is also used for drawing the cursor, if the current
+      line is exactly as wide as the window and point is at the end of
+      the line. To disable this, change the variable
+      'overflow-newline-into-fringe' to 'nil'; this cause Emacs to
+      continue or truncate lines that are exactly as wide as the
+      window.
+  * *Displaying Boundaries*
+    * The buffer-local variable 'indicate-buffer-boundaries' controls
+      how the buffer boundaries and window scrolling is indicated in
+      the fringes. If the value is 'left' or 'right', both angle and
+      arrow bitmaps are displayed in the left or right fringe,
+      respectively.
+  * *Useless Whitespace*
+    * Whitespace mode is a buffer-lacal minor mode that lets you
+      visualize many kinds of whitespace in the buffer, by either
+      drawing the whitespace characters with a special face or
+      displaying them as special glyphs. To toggle this mode, type
+      'M-x whitespace-mode'.
+  * *Selective Display*
+    * To hide lines in the current buffer, type 'C-x $' with a numeric
+      argument N. Then lines with at least N columns of indentation
+      disappear from the screen. The only indication of their presence
+      is that three cots appear at the end of each visible line that
+      is followed by one or more hidden ones.
+    * The commands 'C-n' and 'C-p' move across the hidden lines as if
+      they were not there.
+    * To make all lines visible again, type 'C-x $' with no argument.
+  * *Optional Mode Line*
+    * You can display the size of the buffer by typing 'M-x
+      size-indication-mode' to turn on Size Indication mode. The size
+      will be displayed immediately following the buffer percentage
+      like this: POS of SIZE.
+    * If you have narrowed the buffer, the displayed line number is
+      relative to the accessible portion of the buffer. Thus, it isn't
+      suitable as an argument to 'goto-line'.
+    * Emacs can optionally display the time and system load in all
+      mode lines. To enable this feature, type 'M-x display-time' or
+      customize the potion 'display-time-mode'. The information added
+      to the mode line looks like this:HH:MMpm L.LL
+  * *Cursor Display*
+    * To make the cursor even more visible, you can use HL line mode,
+      a minor mode that highlights the line containing point. Use 'M-x
+      hl-line-mode' to enable or disable it in the current buffer.
+  * *Line Truncation*
+    * You can explicitly enable line truncation for a particular
+      buffer with the command 'M-x toggle-truncate-lines'.
+    * If a split window becomes too narrow, Emacs may automatically
+      enable line truncation.'truncate-partial-width-windows'
+  * *Visual Line Mode*
+    * In Visual Line mode, some editing commands work on screen lines
+      instead of logical lines. To move by logical lines, use the
+      commands 'M-x next-logical-line' and 'M-x
+      previous-logical-line'. These move point to the next logical
+      line and the previous logical line respectively, regardless of
+      whether Visual Line mode is enabled. If you use these commands
+      frequently, it may be convenient to assign key bindings to them.
+** Search
+  * *Incremental Search*
+    * 'C-s' Incremental search forward.
+    * 'C-r' Incremental search backward.
+    * When you exit the incremental search, it adds the original value
+      of point to the mark ring, without activating the mark; you can
+      thus use 'C-u C-<SPC>' to return to where you were before
+      beginning the search.
+    * Type another 'C-s' to move to the next occurrence of the search
+      string. After exiting a search, you can search for the same
+      string again by typing just 'C-s C-s'. The first 'C-s' is the
+      key that invokes incremental search, and the second 'C-s' means
+      search again. If you are searching forward but you realize you
+      were looking for something before the starting point, type 'C-r'
+      to switch to a backward search, leaving the search string
+      unchanged. If a search is failing and you ask to repeat it by
+      typing another 'C-s', it starts again from the beginning of the
+      buffer. Repeating a failing reverse search with 'C-r' starts
+      again from the end.
+    * To reuse earlier search strings, use the search ring. The
+      commands 'M-p' and 'M-n' move through the ring to pick a search
+      string to reuse. These commands leave the selected search ring
+      element in the minibuffer, where you cam edit it. To edit the
+      current search string in the minibuffer without rep;acing it
+      with items from the search ring, type 'M-e'. Type <RET>, 'C-s'
+      or 'C-r' to finish editing the string and search for it.
+    * If your string was mistyped, you can use <DEL> to erase some of
+      it and correct it. If you like the place you have found, you can
+      type <RET> to remain there. Or you can type 'C-g', which removes
+      from the search string the characters that could not be found,
+      leaving those that were found. A second 'C-g' at that point
+      cancels the search entirely, returning point to where it was
+      when the search started.
+    * By default, incremental search performs lax space matching. To
+      toggle lax space matching, type 'M-s <SPC>'. To disable this
+      feature entirely, change 'search-whitespace-regexp' to 'nil';
+      then each space in the search string matches exactly one space.
+    * To toggle whether or not invisible text is searched, type 'M-s
+      i'.
+    * To search for a newline character, type 'C-j'.
+    * Type 'C-q', followed by a non-graphic character or a sequence of
+      octal digits. This adds a character to the search string,
+      similar to inserting into a buffer using 'C-q'. For example,
+      'C-q C-s' during incremental search adds the 'control-S'
+      character to the search string.
+    * Type 'C-x 8 <RET>', followed by a Unicode name or code-point.
+    * Use an input method. If an input method is enabled in the
+      current buffer when you start the search, you can use it in the
+      search string also.
+    * Typing 'M-%' in incremental search invokes 'query-replace' or
+      'query-replace-regexp' with the current search string used as
+      the string to replace. A negative prefix argument means to
+      replace backward.
+    * Typing 'M-<TAB>' in incremental search invokes
+      'isearch-complete', which attempts to complete the search string
+      using the search ring as a list of completion alternatives.
+    * When incremental search is active, you can type 'C-h C-h' to
+      access interactive help options, including a list of special key
+      bindings.
+    * Within incremental search, 'C-y' appends the current kill to the
+      search string. 'M-y', if called after 'C-y', replaces that
+      appended text with an earlier kill, similar to the usual 'M-y'
+      command. 'C-w appends the next character or word at point to the
+      search string. This is an easy way to search for another
+      occurrence of the text at point. 'M-s C-e' appends the rest of
+      the current line to the search string. If point is already at
+      the of a line, it appends the next line. With a prefix argument
+      N, it appends the next N lines. If the search is currently
+      case-insensitive, both 'C-w' and 'M-s C-e' covert the text they
+      copy to lower case, so that the search remains
+      case-insensitive. 'C-M-w' deletes the last character from the
+      search string, and 'C-M-y' appends the character after point to
+      the search string.
+    * If you start an incremental search while the minibuffer is
+      active, Emacs searches the contents of the minibuffer. Unlike
+      searching an ordinary buffer, the search string id not shown in
+      the echo area, because that id used to display the
+      minibuffer. Like in ordinary buffer search, a failing search can
+      wrap around, going from the last page to the first page or vice
+      versa. When the current match is on a history element, that
+      history element is polled into the minibuffer. If you exit the
+      incremental search normally, it remains in the minibuffer
+      afterwards. Canceling the search, with 'C-g', restores the
+      contents of the minibuffer when you began the search.
+    * Emacs also has conventional nonincremental search commands,
+      which require you to type the entire search string before
+      searching begins.
+    * 'C-s <RET> STRING <RET>' Search for STRING. To start a
+      nonincremental search, first type 'C-s <RET>'. This enters the
+      minibuffer to read the search string; terminate the string with
+      <RET>, and then the search takes place. If the string is not
+      found, the search command signals an error.
+    * 'C-r <RET> STRING <RET>' Search backward for STRING.
+  * *Word Search*
+    * You don't have to worry whether the words you are looking for
+      are separated by newlines or spaces.
+    * 'W-s w' If incremental search is active, toggle word search
+      mode; otherwise, begin an incremental forward word search.
+    * 'M-s w <RET> WORDS <RET>' Search for WORDS, using a
+      nonincremental word search.
+    * 'M-s w C-r <RET> WORDS <RET>' Search backward for WORDS, using a
+      nonincremental word search.
+    * Incremental and nonincremental word searches differ slightly in
+      the way they find a match. In a nonincremental word search, each
+      word in the search string must exactly match a whole word. In an
+      incremental word search, the matching is more lax: while you are
+      typing the search string, its first and last words need not
+      match whole words. This is so that the matching can proceed
+      incrementally as you type. This additional laxity does not apply
+      to the lazy highlight, which always matches whole words.
+  * *Symbol Search*
+    * A symbol search is much like an ordinary search, except that the
+      boundaries of the search must match the boundaries of a symbol
+      .The meaning of symbol in this context depends on the major
+      mode, and usually refers to a source code token, such as a Lisp
+      symbol in Emacs Lisp mode, For instance, if you perform an
+      incremental symbol search for the Lisp symbol forward-word, it
+      would not match isearch-forward-word. This feature is thus
+      mainly useful for searching source code.
+    * 'M-s _' If incremental search id active toggle symbol search
+      mode; otherwise, begin an incremental forward symbol search.
+    * 'M-s .' Start a symbol incremental search forward with the
+      symbol found near point added to the search string initially.
+    * 'M-s _ <RET> SYMBOL <RET>' Search forward for SYMBOL,
+      nonincrementally.
+    * 'M-s _ C-r <RET> SYMBOL <RET>' Search backward for SYMBOL,
+      nonincrementally.
+  * *Regexp Search*
+    * A regular expression is a pattern that denotes a class of
+      alternative string to match. Emacs provides both incremental and
+      nonincremental ways to search for a match for a regexp. The
+      syntax of regular sxpressions is explained in the next section.
+    * 'C-M-s' Begin incremental regexp search. This command reads a
+      search string incrementally just like 'C-s', but it treats the
+      search string as a regexp rather than looking for an exact match
+      against the text in the buffer. Each time you add text to the
+      search string, you made the regexp longer, and the new regexp is
+      searched for. To search backward for a regexp linger, and the
+      new regexp is searched for. To search backward for a regexp, use
+      'C-M-r', 'C-r' with a prefix argument, or 'M-r' within a
+      backward incremental search.
+    * Unlike ordinary incremental search, incremental regexp search do
+      not use lax space matching by default. To toggle this feature
+      use 'M-s <SPC>'. Then any <SPC> typed in incremental regexp
+      search will match any sequence of one or more whitespace
+      characters.
+    * Forward and backward regexp search are not symmetrical, because
+      regexp matching in Emacs always operates forward, starting with
+      the beginning of the regexp. Thus, forward regexp search scans
+      forward, trying a forward match at each possible starting
+      position. Backward regexp search scans backward, trying a
+      forward match at each possible starting position. These search
+      methods are not mirror images.
+    * Nonincremental search for a regexp is done with the commands
+      're-search-forward' and 're-search-backward'. You can invoke
+      these with 'M-x', or by way of incremental regexp search with
+      'C-M-s <RET>' and 'C-M-r <RET>'.
+    * 'C-M-r' Begin reverse incremental regexp search.
+  * *Searching Case*
+    * Typing 'M-c' within an incremental search toggles the case
+      sensitivity of that search. The effect does not extend beyond
+      the current incremental search to the next one, but it does
+      override the current incremental search to the next one, but it
+      does override the effect of adding or removing an upper-case
+      letter in the current search.
+  * *Replacement Commands*
+    * 'M-x replace-string'
+    * 'M-%' Presents each occurrence of the pattern and asks you
+      whether to replace it.
+    * The replace commands normally operate in on the text from point
+      to the end of the buffer. When the region is active, they
+      operate on it instead. The basic replace commands replace one
+      search string with one replacements in parallel, using the
+      command 'expand-region-abbrevs'.
+    * Unlike incremental search, the replacement commands to not use
+      lax space matching for replacement, change the variable
+      'replace-lax-whitespace' to 't'.
+    * 'M-x replace-string <RET> STRING <RET> NEWSTRING <RET>' Replace
+      every occurrence of STRING with NEWSTRING. Replacement happens
+      only in the text after point, so if you want to cover the whole
+      buffer you must go to the beginning first. All occurrences up to
+      the end of the buffer are replaced; to limit replacement to part
+      of the buffer, activate the region around that part. When the
+      region is active, replacement is limited to the region.
+    * When 'replace-string' exits, it leaves point at the last
+      occurrence replaced. It adds the prior position of point to the
+      mark ring, without activating the mark; use 'C-u C-<SPC>' to
+      move back there. A prefix argument restricts replacement to
+      matches that are surrounded by word boundaries.
+    * 'M-x replace-regexp' Replace any match for a specified
+      pattern. 'M-x replace-regexp <RET> REGEXP <RET>' Replace every
+      match for REGEXP with NEWSTRING.
+    * If the first argument of a replace command is all lower case,
+      the command ignores case while searching for occurrences to
+      replace--provided 'case-fold-search' is non- 'nil'. If
+      'case-fold-search' is set to 'nil', case is always significant
+      in all searches. In addition, when the NEWSTRING argument is all
+      or partly lower case, replacement commands try to preserve the
+      case pattern of each occurrence. If upper-case letters are used
+      in the replacement string, they remain upper case every time
+      that is inserted. If upper-case letters are used in the first
+      argument, the second argument is always substituted exactly as
+      given, with no case conversion. Likewise, if either
+      'case-replace' or 'case-fold-search' is set to 'nil',
+      replacement is done without case conversion.
+    * 'M-% STRING <RET> NEWSTRING <RET>' Replace some occurrences of
+      STRING with NEWSTRING. If you want to change only some of the
+      occurrences, not all of them, use 'M-%'. This command finds
+      occurrences of '' one by one, displays each occurrence and asks
+      you whether to replace it.
+    * 'C-M-% REGEXP <RET> NEWSTRING <RET>' Perform regexp search and
+      replace.
+      * '<RET>' to exit without doing any more replacements.
+      * '.' to replace this occurrence and then exit without searching
+        for more occurrences.
+      * '!' to replace all remaining occurrences without asking again.
+      * 'Y' to replace all remaining occurrences in all remaining
+        buffers in multi-buffer replacements. It answers this question
+        and all subsequent questions in the series with yes, without
+        further user interaction.
+      * 'N' to skip to the next buffer in multi-buffer replacements
+        without replacing remaining occurrences in the current
+        buffer. It answers this question no, gives to the next buffer
+        in the sequence.
+      * '^' to go back to the position of the previous occurrence, in
+        case you changed it by mistake or want to reexamine it.
+      * 'C-r' to enter a recursive editing level, in case the
+        occurrence needs to be edited rather than just replaced with
+        NEWSTRING. When you are done, exit the recursive editing level
+        with 'C-M-c' to proceed to the next occurrence.
+      * 'C-w' to delete the occurrence, and then enter a recursive
+        editing level as in 'C-r'. Use the recursive edit to insert
+        text to replace the deleted occurrence of STRING. When done,
+        exit the recursive editing level with 'C-M-c' to proceed to
+        the next occurrence.
+      * 'e' to edit the replacement string in the minibuffer. When you
+        exit the minibuffer by typing <RET>, the minibuffer contents
+        replace the current occurrence of the pattern. They also
+        become the new replacement string for any further occurrence.
+      * 'C-l' to redisplay the screen. Then you must type another
+        character to specify what to do with this occurrence.
+      * 'C-h' to display a message summarizing these options. Then you
+        must type another character to specify what to do with this
+        occurrence.
+      * 'C-k' exit the 'query-replace' and then kills to the end of
+        line.
+      * 'C-x <ESC> <ESC>' repeat the 'query-replace' because it used
+        the minibuffer to read its arguments.
+  * *Other Repeating Search*
+    * 'M-x multi-isearch-buffers' Prompt for more buffer names, ending
+      with <RET>; then, begin a multi-buffer incremental search in
+      those buffers.
+* Magit
