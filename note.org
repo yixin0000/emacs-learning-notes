@@ -1245,4 +1245,3 @@
     * 'M-x multi-isearch-buffers' Prompt for more buffer names, ending
       with <RET>; then, begin a multi-buffer incremental search in
       those buffers.
-* Magit
