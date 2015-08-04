@@ -1,2 +1,2 @@
-* emacs-learning-notes
+kk* emacs-learning-notes
 * Magit
